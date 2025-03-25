@@ -1,72 +1,44 @@
-# Terraform AWS Citadel Infrastructure
+# Projet Citadel AWS avec Terraform
 
-Ce projet utilise Terraform pour déployer une infrastructure cloud automatisée sur AWS, comprenant une instance Citadel avec Nginx et une configuration SSH sécurisée.
+Ce dépôt contient l'infrastructure as code pour déployer une instance "Citadel" sur AWS avec Terraform. Le projet configure une machine EC2 avec Nginx, une IP Elastic et utilise le service de paires de clés SSH d'AWS pour l'accès sécurisé.
 
-## Architecture
+## Vue d'ensemble
 
-L'infrastructure se compose des éléments suivants :
-- Instance AWS EC2 (citadel) avec Nginx installé
-- Configuration d'une paire de clés SSH pour l'accès sécurisé
-- Allocation d'une adresse IP Elastic pour un accès stable
-- Script d'automation pour l'installation et la configuration de Nginx
+Ce projet est conçu pour démontrer une configuration d'infrastructure AWS basique mais complète en utilisant Terraform. L'architecture comprend :
 
-## Prérequis
+- Une instance EC2 nommée "Citadel"
+- Nginx installé automatiquement via un script
+- Une IP Elastic pour un accès permanent
+- Une paire de clés SSH pour l'authentification
 
-- Terraform v1.0.0+
-- Compte AWS et AWS CLI configuré
-- Connaissance basique de Terraform et AWS
+## Fichiers du projet
 
-## Structure du projet
+- `providers.tf` : Configuration du provider AWS et des endpoints
+- `main.tf` : Définition de l'instance EC2
+- `eip.tf` : Configuration de l'IP Elastic
+- `variables.tf` : Définition des variables (AMI, région, type d'instance)
+- `install-nginx.sh` : Script d'installation de Nginx
 
-```
-terraform-aws-citadel-infra/
-├── main.tf                 # Configuration principale Terraform
-├── variables.tf            # Définition des variables
-├── outputs.tf              # Sorties Terraform
-├── scripts/
-│   └── install-nginx.sh    # Script d'installation de Nginx
-└── README.md               # Documentation du projet
-```
+## Utilisation
 
-## Variables
-
-| Nom | Description | Type | Valeur par défaut |
-|-----|-------------|------|-----------------|
-| ami | ID de l'AMI à utiliser | string | "ami-06178cf087598769c" |
-| region | Région AWS | string | "eu-west-2" |
-| instance_type | Type d'instance EC2 | string | "m5.large" |
-
-## Déploiement
-
-1. Clonez ce repository
-   ```
-   git clone https://github.com/votre-username/terraform-aws-citadel-infra.git
-   cd terraform-aws-citadel-infra
-   ```
-
-2. Initialisez Terraform
+1. Assurez-vous que Terraform est installé
+2. Initialisez votre environnement Terraform :
    ```
    terraform init
    ```
-
-3. Prévisualisez les changements
+3. Vérifiez le plan d'exécution :
    ```
    terraform plan
    ```
-
-4. Appliquez la configuration
+4. Appliquez la configuration :
    ```
    terraform apply
    ```
 
-5. Pour détruire l'infrastructure
-   ```
-   terraform destroy
-   ```
+## Environnement
 
-## Sécurité
+Ce projet est configuré pour fonctionner avec un émulateur AWS local écoutant sur le port 4566 (comme LocalStack). Pour l'utiliser avec AWS réel, vous devrez modifier la configuration du provider dans `providers.tf`.
 
-- L'accès SSH est sécurisé par une paire de clés dédiée
-- Assurez-vous de bien protéger le fichier de clé privée
-- Limitez l'accès au serveur via les groupes de sécurité AWS
+## Remarque
 
+Ce projet a été créé dans le cadre d'un challenge Terraform et utilise des chemins spécifiques à cet environnement pour les fichiers et les scripts.
